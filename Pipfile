@@ -8,6 +8,7 @@ django = ">=3.2.4"
 djangorestframework = ">=3.12.4"
 flake8 = ">=3.9.2"
 psycopg2 = ">=2.8.6"
+drf-spectacular = "*"
 
 [dev-packages]
 
