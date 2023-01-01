@@ -9,7 +9,6 @@ from django.test import Client
 
 class AdminSiteTest(TestCase):
     """Tests fro Django Admin."""
-    
     def setUp(self):
         """Create User and Client"""
         self.client = Client()
@@ -44,5 +43,3 @@ class AdminSiteTest(TestCase):
         res = self.client.get(url)
 
         self.assertEqual(res.status_code, 200)
-
-

@@ -12,9 +12,11 @@ CREATE_USER_URL = reverse("user:create")
 TOKEN_URL = reverse("user:token")
 ME_URL = reverse("user:me")
 
+
 def create_user(**params):
     """Create and return a new user."""
     return get_user_model().objects.create_user(**params)
+
 
 class PublicUserApiTests(TestCase):
     """Test the public features of the user API."""
@@ -46,8 +48,8 @@ class PublicUserApiTests(TestCase):
         self.payload["password"] = "pw"
         res = self.client.post(CREATE_USER_URL, self.payload)
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
-        user_exists = get_user_model().objects.filter(email=self.payload['email']).exists()
-        self.assertFalse(user_exists)
+        user = get_user_model().objects.filter(email=self.payload['email'])
+        self.assertFalse(user.exists())
 
     def test_create_token_for_user(self):
         """Test generates token for valid credentials."""
@@ -66,7 +68,7 @@ class PublicUserApiTests(TestCase):
 
         self.assertIn('token', res.data)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-    
+
     def test_create_token_bad_credentails(self):
         """Test return error if credentials invalid."""
         user_details = {
@@ -95,7 +97,7 @@ class PublicUserApiTests(TestCase):
 
         self.assertNotIn('token', res.data)
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
-        
+
     def test_retirieve_user_unauthorized(self):
         """Test authentication is required for users."""
         res = self.client.get(ME_URL)
